@@ -1,9 +1,11 @@
 <script setup>
-
+import Login from './components/Login.vue';
+import Signup from './components/Signup.vue';
+import Sidebar from './components/Sidebar.vue';
 </script>
 
 <template>
-  <div>서현동 개바보</div>🏆
+  <Sidebar />
 </template>
 
 <style scoped>
