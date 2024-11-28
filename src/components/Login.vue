@@ -81,15 +81,11 @@ const router = useRouter();
 </template>
 
 <style scoped>
-*{
-  padding:0px;
-}
 .wrap {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
-  
 
 }
 
@@ -111,6 +107,7 @@ const router = useRouter();
 .login-box {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   width: 30vw;
   height: 60vh;
 }
