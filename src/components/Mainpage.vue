@@ -1,6 +1,15 @@
 <script setup>
 import Sidebar from './Sidebar.vue';
+import { ref } from 'vue/dist/vue.js';
 
+const mainDataWrapHeight = ref(400);
+const liCount = ref(0);
+for(let i = 0; i < liCount+1; i++){
+    if(liCount > 2){
+        mainDataWrapHeight.value += 200;
+    }
+  
+}
 </script>
 
 
@@ -16,13 +25,13 @@ import Sidebar from './Sidebar.vue';
                     <button class="plus-button">+</button>
                 </div>
 
-                <div class="main-data-wrap">
+                <div class="main-data-wrap" :style="{height:mainDataWrapHeight}">
                     <div class="main-data">
                         <h2 class="main-data-text">구글</h2>
                         <h2 class="link-text">바로가기</h2>
                     
                     </div>
-
+<!-- 
                     <div class="main-data">
                         <h2 class="main-data-text">네이버</h2>
                         <h2 class="link-text">바로가기</h2>
@@ -33,9 +42,8 @@ import Sidebar from './Sidebar.vue';
                         <h2 class="main-data-text">유튜브</h2>
                         <h2 class="link-text">바로가기</h2>
                     
-                    </div>
-                    <div class="main-data"></div>
-                    <div class="main-data"></div>
+                    </div> -->
+                
                   
                 
                 </div>
@@ -101,7 +109,7 @@ import Sidebar from './Sidebar.vue';
     align-items: center;
     flex-direction: column;
     width:70vw;
-    height:2000px;
+    height:400px;
 }
 .main-data{
     width:50vw;
