@@ -3,7 +3,7 @@ import Sidebar from './Sidebar.vue';
 import { ref, computed } from 'vue';
 
 const liCount = ref(0);
-const urlInfo = ref('')
+const urlInfo = ref('');
 
 const mainDataWrapHeight = computed(() => {
   const baseHeight = 400;
