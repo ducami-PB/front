@@ -7,7 +7,7 @@ import Bookmark from './components/Bookmark.vue';
 </script>
 
 <template>
-  <Mainpage />
+  <Bookmark />
 </template>
 
 <style scoped>
