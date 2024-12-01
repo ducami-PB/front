@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-// Router 사용
 const router = useRouter();
 </script>
 
