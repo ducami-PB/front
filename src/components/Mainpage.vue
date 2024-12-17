@@ -1,23 +1,31 @@
 <script setup>
 import Sidebar from './Sidebar.vue';
 import { ref, computed } from 'vue';
+import { RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
+import Bookmark from './Bookmark.vue';
 
 const liCount = ref(0);
-const urlInfo = ref('');
+const urlInfo = ref([]);
 
 const mainDataWrapHeight = computed(() => {
   const baseHeight = 400;
-  const additionalHeightPerItem = 200;
+  const additionalHeightItem = 200;
   return liCount.value > 2 
-    ? baseHeight + (liCount.value - 2) * additionalHeightPerItem
+    ? baseHeight + (liCount.value - 2) * additionalHeightItem
     : baseHeight;
 });
+// const addListItem = () => {
+//   liCount.value++;
+//   console.log(liCount.value);
+// };
 
-const addListItem = () => {
-  urlInfo.value = prompt('무슨 사이트 인가요');
-  liCount.value++;
-  console.log(liCount.value);
+const router = useRouter();
+
+const goToBookmarkPage = () => {
+  router.push('/Bookmark'); // Mainpage로 이동
 };
+
 </script>
 
 <template>
@@ -29,7 +37,8 @@ const addListItem = () => {
       <div class="bookmark-list">
         <div class="bookmark-text-wrap">
           <h1 class="bookmark-text">북마크</h1>
-          <button class="plus-button" @click="addListItem">+</button>
+          <div class="plus-button" @click="goToBookmarkPage">+</div>
+          
         </div>
 
         <div class="main-data-wrap" :style="{ height: mainDataWrapHeight + 'px' }">

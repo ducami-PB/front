@@ -1,15 +1,19 @@
 <script setup>
-import Login from './components/Login.vue';
-import Signup from './components/Signup.vue';
-import Sidebar from './components/Sidebar.vue';
-import Mainpage from './components/Mainpage.vue';
-import Bookmark from './components/Bookmark.vue';
+import { RouterLink, RouterView } from 'vue-router';
+
 </script>
 
 <template>
-  <Mainpage />
+  <div id="app">
+    <nav>
+      <router-link to="/">Mainpage</router-link> |
+      <router-link to="/Login">Login</router-link> |
+      <router-link to="/Signup">Signup</router-link> |
+      <router-link to="/Bookmark">Bookmark</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
-<style scoped>
-
+<style>
 </style>

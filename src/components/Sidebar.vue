@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const sidebarTextColor = ref('white');
 const sidebarImgSrc = ref('public/Group 5.png');
 const sidebarBackground = ref('rgba(134, 182, 239, 1');
+
 
 const onHandlerImgText = () => {
   sidebarTextColor.value = 'rgba(134, 182, 239, 1)';
@@ -16,6 +18,11 @@ const onMouseOutHandler = () => {
   sidebarImgSrc.value = 'public/Group 5.png';
   sidebarBackground.value = 'rgba(134, 182, 239, 1';
 };
+const router = useRouter();
+
+const gotoMainpage = () => {
+  router.push('/');
+}
 
 </script>
 
@@ -28,6 +35,7 @@ const onMouseOutHandler = () => {
         @mouseover="onHandlerImgText" 
         @mouseleave="onMouseOutHandler"
          :style='{backgroundColor: sidebarBackground}'
+         @click="gotoMainpage"
         >
        
         <img 

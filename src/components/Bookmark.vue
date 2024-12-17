@@ -1,14 +1,70 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import Sidebar from './Sidebar.vue';
 import { ref } from 'vue';
+import axios from 'axios';
 
-const info = ref({})
+const router = useRouter()
+
+const info = ref({
+    title:'',
+    url:'',
+    memo:''
+})
 
 const handleForm =(e) => { // 받아온 값마다 지정돼있는 name을 loginData에서 찾아 그에 맞는 값을(value) 추가함
         const {name, value} = e.target;
         info.value = {...info.value, [name]: value};
-        console.log(info.value);
     }
+
+const  Authorization = () => {
+    let token = localStorage.getItem('ACCESS_TOKEN');
+  if (token === 'undefined' || token === null) {
+    return '로그인이 필요합니다.'
+    //   await RefreshToken();
+    //   token = localStorage.getItem('ACCESS_TOKEN'); // token변수에 새롭게 저장된 토큰을 넣음.
+  }
+
+  if (token) {
+      return '인증성공';
+  } else {
+      return '인증실패';
+  }
+}
+
+const onSubmit = async () => {
+    try{
+        const authorization = await Authorization();
+        const {title, url, memo} = info.value;
+        const token = localStorage.getItem('ACCESS_TOKEN');
+
+        if(authorization !== '로그인이 필요합니다.'){
+            console.log(title, url, memo)
+            const res = await axios.post('http://localhost:7777/supabase/create', {
+                title:title,
+                url:url,
+                memo:memo
+            },{
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            if(res){
+                alert('요청 성공!?');
+                router.push('/');
+            } else{
+                alert('요청 실패');
+            }
+        }else{
+            alert('로그인이 필요합니다.');
+            router.push('/Login');
+        }
+    } catch{
+        alert('네트워크 에러');
+    }
+  
+}
 
 
 </script>
@@ -28,7 +84,7 @@ const handleForm =(e) => { // 받아온 값마다 지정돼있는 name을 loginD
                         <input 
                         class="input" 
                         placeholder="북마크의 이름을 입력해주세요"
-                        name="Name"
+                        name="title"
                         @input="handleForm"
                     />
                 </div>
@@ -49,11 +105,15 @@ const handleForm =(e) => { // 받아온 값마다 지정돼있는 name을 loginD
                 <textarea 
                     class="textarea" 
                     placeholder="북마크의 내용을 입력해주세요"
-                    name="reason"
+                    name="memo"
                     @input="handleForm"
                 ></textarea>
 
-                <button class="submit-button">추가</button>
+                <button 
+                    class="submit-button" 
+                    @click="onSubmit"
+                >
+                추가</button>
             </div>
         </div>
     </div>
@@ -122,7 +182,7 @@ const handleForm =(e) => { // 받아온 값마다 지정돼있는 name을 loginD
     border-radius: 15px;
     margin-top:20px;
     padding-left:40px;
-    padding-top:10px;
+    padding-top:20px;
 
 }
 .submit-button{

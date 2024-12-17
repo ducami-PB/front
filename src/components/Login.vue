@@ -1,8 +1,59 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
+// Router 사용
 const router = useRouter();
+
+// 상태 관리
+const info = ref({
+  email: '',
+  password: '',
+});
+
+// 비밀번호 보이기/숨기기 상태
+const inputType = ref('password');
+const imgUrl = ref('https://cdn-icons-png.flaticon.com/128/7578/7578269.png'); // 기본: 안 보임
+const beforeImg = 'https://cdn-icons-png.flaticon.com/128/7578/7578269.png';
+const afterImg = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
+
+//상태 관리 함수
+const handleForm =(e) => { // 받아온 값마다 지정돼있는 name을 loginData에서 찾아 그에 맞는 값을(value) 추가함
+        const {name, value} = e.target;
+        info.value = {...info.value, [name]: value};
+    }
+
+// 비밀번호 토글 함수
+const toggleInputType = () => {
+  inputType.value = inputType.value === 'password' ? 'text' : 'password';
+  imgUrl.value = imgUrl.value === beforeImg ? afterImg : beforeImg;
+};
+
+// 로그인 처리 함수
+const onSubmit = async () => {
+  const {email, password} = info.value;
+  try {
+    if (email && password) {
+      const res = await axios.post('http://localhost:7777/supabase/signIn', {
+        email: email,
+        password: password,
+      });
+      
+
+      if (res && res.data) {
+        alert('로그인 성공');
+        localStorage.setItem('ACCESS_TOKEN', res.data);
+        router.push('/'); // 메인 페이지로 이동
+      }
+    } else {
+      alert('모두 작성해주세요.');
+    }
+  } catch (error) {
+    console.error(error);
+    alert('로그인 실패');
+  }
+};
 </script>
 
 <template>
@@ -19,6 +70,7 @@ const router = useRouter();
             placeholder="아이디를 입력하세요"
             name="email"
             class="input"
+            @input="handleForm"
           />
           <img
             src="/Users/yongjin/Desktop/동아리_프로젝트(리엑트)/front/public/email.png"
@@ -41,6 +93,7 @@ const router = useRouter();
             placeholder="비밀번호를 입력하세요"
             name="password"
             class="input"
+            @input="handleForm"
           />
           <img
             src="/Users/yongjin/Desktop/동아리_프로젝트(리엑트)/front/public/mdi_password.png"
@@ -50,7 +103,9 @@ const router = useRouter();
               height: 3vh;
               margin-top: 64px;
               margin-left: 10px;
+              
             "
+         
           />
           <img
             :src="imgUrl"
@@ -61,12 +116,13 @@ const router = useRouter();
               margin-top: 66px;
               margin-left: 28vw;
             "
+            @click="toggleInputType"
           />
         </div>
 
         <!-- 로그인 버튼 및 회원가입 링크 -->
         <div class="input-box-wrap">
-          <button class="submit-button">로그인</button>
+          <button class="submit-button" @click="onSubmit">로그인</button>
           <p>
             계정이 없다면?
             <router-link to="/Signup" style="color:rgba(134, 182, 239, 1)">
